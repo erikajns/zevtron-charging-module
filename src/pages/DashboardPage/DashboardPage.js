@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Container, CustomButton, Logo, ButtonContainer } from './DashboardPage.styles';
 import BottomNavigation from '../../components/BottomNavigation/BottomNavigation';
 import { useNavigate } from 'react-router-dom';
@@ -8,15 +8,9 @@ const DashboardPage = () => {
   const navigate = useNavigate();
   const [navValue, setNavValue] = useState(0);
 
-  const handleNavChange = (event, newValue) => {
-    setNavValue(newValue);
-    // Handle navigation change logic here (e.g., routing)
+  const handleScanClick = () => {
+    navigate('/qr');
   };
-
-  const handleScanClick = ()=> {
-    navigate('/charging');
-
-  }
 
   return (
     <Container>
@@ -33,7 +27,7 @@ const DashboardPage = () => {
         <CustomButton variant="outlined">Manually Enter Station ID</CustomButton>
       </ButtonContainer>
 
-      <BottomNavigation value={navValue} onChange={handleNavChange} />
+      <BottomNavigation value={navValue} />
     </Container>
   );
 };

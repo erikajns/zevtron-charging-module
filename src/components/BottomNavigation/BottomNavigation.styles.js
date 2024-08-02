@@ -18,5 +18,6 @@ export const CustomBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
   },
   '& .MuiBottomNavigationAction-label': {
     fontSize: theme.typography.caption.fontSize,
+    fontWeight: 700,
   },
 }));

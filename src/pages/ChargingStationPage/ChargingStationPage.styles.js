@@ -67,3 +67,11 @@ export const Logo = styled('img')(({ theme }) => ({
     color: theme.palette.secondary.main,
     fontWeight: 700,
   }));
+
+  export const BackButtonContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start', 
+    width: '100%',
+    padding: theme.spacing(1, 2),
+  }));

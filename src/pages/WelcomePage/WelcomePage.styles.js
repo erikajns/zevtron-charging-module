@@ -82,5 +82,6 @@ export const GuestText = styled('a')(({ theme }) => ({
   color: theme.palette.text.secondary,
   position: 'absolute',
   bottom: theme.spacing(2),
-  textDecoration: 'none'
+  textDecoration: 'none',
+  fontFamily: 'Inter'
 }));

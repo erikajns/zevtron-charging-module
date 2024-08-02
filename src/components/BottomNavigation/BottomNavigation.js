@@ -5,13 +5,35 @@ import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
 import AttachMoneyRoundedIcon from '@mui/icons-material/AttachMoneyRounded';
 import TransactionsIcon from '@mui/icons-material/Sync';
 import MoreIcon from '@mui/icons-material/MoreHoriz';
+import { useNavigate } from 'react-router-dom';
 
-const BottomNavigation = ({ value, onChange }) => {
+const BottomNavigation = ({ value }) => {
+  const navigate = useNavigate();
+
+  const handleNavChange = (event, newValue) => {
+    switch (newValue) {
+      case 0:
+        navigate('/dashboard');
+        break;
+      case 1:
+        // Navigate to the payment page if implemented
+        break;
+      case 2:
+        navigate('/transactions');
+        break;
+      case 3:
+        // Navigate to the more options page if implemented
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <BottomNavContainer>
       <CustomBottomNavigation
         value={value}
-        onChange={onChange}
+        onChange={handleNavChange}
         showLabels
       >
         <BottomNavigationAction label="Charge" icon={<BoltRoundedIcon />} />
