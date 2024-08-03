@@ -1,45 +1,49 @@
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import Button from '@mui/material/Button';
 
-export const Container = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '90vh',
-    padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(3),
-  },
-  [theme.breakpoints.up('md')]: {
-    padding: theme.spacing(5),
-  },
-}));
-
-export const ScannerContainer = styled(Box)(({ theme }) => ({
+export const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'center',
+  flexDirection: 'column',
   alignItems: 'center',
-  width: '100%',
-  maxWidth: '400px',
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  backgroundColor: '#ffffff',
+  padding: theme.spacing(2),
+}));
+
+export const Header = styled(Box)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: theme.spacing(4),
+}));
+
+export const ScannerView = styled(Box)(({ theme }) => ({
+  width: '90%',
+  height: '50vh',
   backgroundColor: '#000',
+  borderRadius: theme.shape.borderRadius,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: theme.spacing(2),
 }));
 
-export const CameraIcon = styled(CameraAltIcon)(({ theme }) => ({
-  fontSize: '48px',
-  color: theme.palette.grey[600],
+export const CameraButton = styled(Button)(({ theme }) => ({
+  width: '80px',
+  height: '80px',
+  backgroundColor: theme.palette.primary.main,
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
 }));
-
 
 export const BackButtonContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start', 
-  width: '100%',
-  padding: theme.spacing(1, 2),
+  position: 'absolute',
+  top: theme.spacing(2),
+  left: theme.spacing(2),
 }));
