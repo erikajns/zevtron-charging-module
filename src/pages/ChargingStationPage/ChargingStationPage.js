@@ -9,24 +9,28 @@ import PowerOutlinedIcon from '@mui/icons-material/PowerOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import { Container, CustomButton, CardContainer, ConnectorButton, Logo, NotificationBar, PaymentInfoImage, EditIconButton } from './ChargingStationPage.styles';
 import CardHeader from '../../components/CardHeader/CardHeader';
+import ReactInputMask from 'react-input-mask';
+import PhoneInput from '../../components/utils/PhoneInput';
 
 const ChargingStationPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const [selectedConnector, setSelectedConnector] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [notify, setNotify] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [notificationInfo, setNotificationInfo] = useState({ name: '', email: '', phone: '' });
   const [paymentInfo, setPaymentInfo] = useState(null);
+  const scannedId = queryParams.get('scannedId');
+
 
   useEffect(() => {
-    if (location.state && location.state.scannedId) {
+    if (scannedId) {
       const timestamp = new Date().toLocaleTimeString();
-      setSelectedPayment('Add to Parking');
-      setPaymentInfo({ method: 'Add to Parking', id: location.state.scannedId, verifiedAt: timestamp });
+      setPaymentInfo({ method: 'Add to Parking', id: scannedId, verifiedAt: timestamp });
     }
-  }, [location.state]);
+  }, [scannedId]);
 
   const handleConnectorSelect = (connector) => {
     setSelectedConnector(connector);
@@ -34,7 +38,7 @@ const ChargingStationPage = () => {
 
   const handlePaymentSelect = (paymentMethod, id) => {
     if (paymentMethod === 'Add to Parking') {
-      navigate('/qr');
+      navigate('/qr2');
     } else {
       const timestamp = new Date().toLocaleTimeString();
       setSelectedPayment(paymentMethod);
@@ -257,17 +261,13 @@ const ChargingStationPage = () => {
               variant="outlined"
               fullWidth
               value={notificationInfo.email}
+              type="email"
               onChange={handleInputChange}
               required
             />
-            <TextField
-              name="phone"
-              label="Phone Number"
-              variant="outlined"
-              fullWidth
+            <PhoneInput
               value={notificationInfo.phone}
               onChange={handleInputChange}
-              required
             />
             <Button type="submit" variant="contained" color="primary">
               Submit

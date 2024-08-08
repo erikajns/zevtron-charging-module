@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { Alert, Box, Button, IconButton, Typography } from '@mui/material';
+import { Alert, Box, IconButton, Typography } from '@mui/material';
 import { Container, Header, ScannerView, CameraButton, BackButtonContainer, AlertContainer } from './QRScannerPage.styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const QRScannerPage = () => {
   const [cameraId, setCameraId] = useState(null);
   const [scanner, setScanner] = useState(null);
-  const [showAlert, setShowAlert] = useState(true);
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch available cameras
     Html5Qrcode.getCameras()
       .then(cameras => {
         if (cameras && cameras.length) {
-          setCameraId(cameras[cameras.length - 1].id); // Using the last camera
+          setCameraId(cameras[cameras.length - 1].id);
+          startScanner();
         }
       })
-      .catch(err => console.error('Error fetching cameras', err));
+      .catch(err => {
+        console.error('Error fetching cameras', err);
+        setAlertMessage('Error accessing camera. Please check camera permissions and try again.');
+      });
 
-    // Cleanup function
     return () => {
       if (scanner) {
         scanner.stop().then(() => scanner.clear());
@@ -35,7 +37,7 @@ const QRScannerPage = () => {
     if (cameraId) {
       const qrScanner = new Html5Qrcode('reader');
       qrScanner.start(
-        cameraId,
+        { facingMode: "environment" },
         {
           fps: 10,
           qrbox: 250
@@ -44,19 +46,18 @@ const QRScannerPage = () => {
         onFailure
       );
       setScanner(qrScanner);
+    } else {
+      setAlertMessage('No camera found. Please check camera permissions and try again.');
     }
   };
 
   const onSuccess = (decodedText, decodedResult) => {
-    // Check if the scanned QR code is the test QR code
     if (decodedText === "TestQRCode") {
       scanner.stop().then(() => scanner.clear());
-      // Simulate the server response and navigate back to the charging page with the test ID
       const testScannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random test ID
       alert('Test QR code scanned successfully.');
-      navigate('/', { state: { scannedId: testScannedId } });
+      navigate('/charging', { state: { scannedId: testScannedId } });
     } else {
-      // Handle other QR codes or actual server interaction
       fetch('api/guest/HubTibaStartCharge', {
         method: 'POST',
         headers: {
@@ -68,7 +69,7 @@ const QRScannerPage = () => {
       .then(data => {
         alert('Your ticket has been validated and the charger is activated. Charging fee will be added to your parking transaction.');
         const scannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random ID for real case
-        navigate('/', { state: { scannedId } });
+        navigate('/charging', { state: { scannedId } });
       })
       .catch(error => {
         console.error('Error:', error);
@@ -76,15 +77,14 @@ const QRScannerPage = () => {
       });
     }
   };
-  
 
   const onFailure = (error) => {
     console.warn(`QR Code scan failed: ${error}`);
-    setTimeout(() => setShowAlert(false), 3000);
+    setAlertMessage('QR Code scan failed. Please try again.');
   };
 
   const handleClose = () => {
-    setShowAlert(false);
+    setAlertMessage('');
   };
 
   const handleBackClick = () => {
@@ -93,14 +93,14 @@ const QRScannerPage = () => {
 
   return (
     <Container>
-      {showAlert && (
+      {alertMessage && (
         <AlertContainer>
           <Alert
             icon={<ErrorOutlineOutlinedIcon fontSize="inherit" />}
             severity="error"
             onClose={handleClose}
           >
-            Not a Valid Code. Try Again
+            {alertMessage}
           </Alert>
         </AlertContainer>
       )}
