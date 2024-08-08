@@ -7,7 +7,7 @@ export const Container = styled(Box)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '90vh',
+    minHeight: '100vh',
   padding: theme.spacing(2),
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(5),

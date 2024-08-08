@@ -47,3 +47,12 @@ export const BackButtonContainer = styled(Box)(({ theme }) => ({
   top: theme.spacing(2),
   left: theme.spacing(2),
 }));
+
+export const AlertContainer = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  top: 0,
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  zIndex: theme.zIndex.tooltip,
+}));

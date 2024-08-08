@@ -1,10 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 
-// Define the primary and secondary colors
-const primaryColor = '#49454f'; 
-const secondaryColor = '#00c9bf'; 
+const primaryColor = '#49454f';
+const secondaryColor = '#00c9bf';
 
-// Create the theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -19,16 +17,31 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 20,
-          textTransform: 'none'
+          textTransform: 'none',
+          '&.selected': {
+            backgroundColor: '#49454f', // Primary color for selected state
+            color: '#FFFFFF',
+          },
+          '&.MuiButton-outlined.selected': {
+            backgroundColor: '#49454f',
+            color: '#FFFFFF',
+          },
         },
       },
     },
-    MuiInputBase:{
-        styleOverrides:{
-            root:{
-                height: 40,
-            }
-        }
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 15, 
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          height: 40,
+        },
+      },
     },
   },
   typography: {
