@@ -6,6 +6,18 @@ import ChargingStationPage from './pages/ChargingStationPage/ChargingStationPage
 import QRScannerPage from './pages/QRScannerPage/QRScannerPage';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
 import QRScanner2Page from './pages/QRScanner2Page/QRScanner2Page';
+import ChargingDetailsPage from './pages/ChargingDetailsPage/ChargingDetailsPage';
+
+const sampleChargingData = {
+  date: 'July 10 8:17am',
+  duration: '20min',
+  cost: '$12.45',
+  kWh: '8.72',
+  station: 'Station 30111, Connector 2',
+  groupName: 'Group Name',
+  groupAddress: 'Group Address',
+  paymentMethod: 'Payment Method',
+};
 
 const App = () => {
   return (
@@ -16,6 +28,8 @@ const App = () => {
           <Route path="/qr" element={<QRScannerPage />} />
           <Route path="/charge-loading" element={<LoadingPage />} />
           <Route path="/qr2" element={<QRScanner2Page />} />
+          <Route path="/charging-details" element={<ChargingDetailsPage isChargingComplete={false} chargingData={sampleChargingData} />
+} />
         </Routes>
       </Router>
     </ThemeProvider>

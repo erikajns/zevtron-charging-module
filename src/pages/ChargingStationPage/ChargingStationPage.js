@@ -1,36 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Typography, Button, Box, Card, CardContent, Modal, TextField, IconButton } from '@mui/material';
-import BoltIcon from '@mui/icons-material/Bolt';
-import PaymentIcon from '@mui/icons-material/Payment';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Typography, Box, Modal, TextField, Button } from '@mui/material';
+import { Container, CustomButton, CardContainer, NotificationBar, Logo } from './ChargingStationPage.styles';
+import StationCard from '../../components/StationCard/StationCard';
+import PaymentOptionsCard from '../../components/PaymentOptionsCard/PaymentOptionsCard';
+import ConnectorSelectionCard from '../../components/ConnectorSelectionCard/ConnectorSelectionCard';
+import NotificationCard from '../../components/NotificationCard/NotificationCard';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import PowerOutlinedIcon from '@mui/icons-material/PowerOutlined';
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
-import { Container, CustomButton, CardContainer, ConnectorButton, Logo, NotificationBar, PaymentInfoImage, EditIconButton } from './ChargingStationPage.styles';
-import CardHeader from '../../components/CardHeader/CardHeader';
-import ReactInputMask from 'react-input-mask';
 import PhoneInput from '../../components/utils/PhoneInput';
 
 const ChargingStationPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
   const [selectedConnector, setSelectedConnector] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [notify, setNotify] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [notificationInfo, setNotificationInfo] = useState({ name: '', email: '', phone: '' });
   const [paymentInfo, setPaymentInfo] = useState(null);
-  const scannedId = queryParams.get('scannedId');
-
-
-  useEffect(() => {
-    if (scannedId) {
-      const timestamp = new Date().toLocaleTimeString();
-      setPaymentInfo({ method: 'Add to Parking', id: scannedId, verifiedAt: timestamp });
-    }
-  }, [scannedId]);
 
   const handleConnectorSelect = (connector) => {
     setSelectedConnector(connector);
@@ -65,17 +51,17 @@ const ChargingStationPage = () => {
     setNotificationInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleEditPayment = () => {
-    setPaymentInfo(null);
-  };
-
   const handleStartCharging = () => {
     navigate('/charge-loading');
   };
 
+  const handleEditPayment = () => {
+    setPaymentInfo(null);
+  };
+
   const handleEditNotifications = () => {
     setModalOpen(true);
-  }
+  };
 
   return (
     <>
@@ -86,142 +72,32 @@ const ChargingStationPage = () => {
         </Typography>
         <InfoOutlinedIcon />
       </NotificationBar>
-    
+
       <Container>
         <Logo src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="Zevtron Logo" />
 
         <CardContainer>
-          <Card>
-            <CardContent>
-              <CardHeader
-                icon={<img src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="TIBA Logo" />}
-                title="Tiba Lot A"
-                subtitle="Charging Station 30111"
-                price="$0.42"
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent>
-              <CardHeader
-                icon={<PaymentIcon />}
-                title="Payment Options"
-                subtitle="Choose payment method"
-              />
-              {paymentInfo ? (
-                <Box display="flex" justifyContent="space-between" alignItems="center" border="0.5px solid grey" borderRadius={1} p={2}>
-                  <PaymentInfoImage src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="TIBA Logo" />
-                  <Box textAlign="left" flex={1} ml={2}>
-                    <Typography variant="body1"><strong>{paymentInfo.method}</strong></Typography>
-                    <Typography variant="body1">ID: {paymentInfo.id}</Typography>
-                    <Typography variant="body1">Verified {paymentInfo.verifiedAt}</Typography>
-                  </Box>
-                  <EditIconButton onClick={handleEditPayment}>
-                    <EditNoteOutlinedIcon />
-                  </EditIconButton>
-                </Box>
-              ) : (
-                <Box display="flex" flexDirection="column" gap={2}>
-                  <Button
-                    variant="outlined"
-                    className={selectedPayment === 'addToParking' ? 'selected' : ''}
-                    onClick={() => handlePaymentSelect('Add to Parking', '1234')}
-                  >
-                    Add to Parking
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    className={selectedPayment === 'payDirect' ? 'selected' : ''}
-                    onClick={() => handlePaymentSelect('Pay Direct', '5678')}
-                  >
-                    Pay Direct
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    className={selectedPayment === 'applyFunds' ? 'selected' : ''}
-                    onClick={() => handlePaymentSelect('Apply Funds', '9012')}
-                  >
-                    Apply Funds ($74.21)
-                  </Button>
-                </Box>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent>
-              <CardHeader
-                icon={<PowerOutlinedIcon />}
-                title="Choose Connector"
-                subtitle="Select one connector"
-              />
-              <Box display="flex" justifyContent="space-around">
-                <ConnectorButton
-                  selected={selectedConnector === 'left'}
-                  onClick={() => handleConnectorSelect('left')}
-                  borderRadius="15px 0 0 15px"
-                >
-                  1 (Left)
-                </ConnectorButton>
-                <ConnectorButton
-                  selected={selectedConnector === 'right'}
-                  onClick={() => handleConnectorSelect('right')}
-                  borderRadius="0 15px 15px 0"
-                >
-                  (Right) 2
-                </ConnectorButton>
-              </Box>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent>
-              <CardHeader
-                icon={<NotificationsNoneIcon />}
-                title="Get Notified"
-                subtitle="Set up your notification channels"
-              />
-              {notify ? (
-                <>
-                <Typography variant="body2"> Hey <strong>{notificationInfo.name}</strong> here is how you'll get notified:</Typography>
-                <Box display="flex" justifyContent="space-between" alignItems="center" border="0.5px solid grey" borderRadius={1} p={2} marginBottom={1} marginTop={1}>
-                <Box textAlign="left" flex={1} ml={2}>
-                  <Typography variant="body2"><strong>SMS/Text</strong></Typography>
-                  <Typography variant="body2">{notificationInfo.phone}</Typography>
-                </Box>
-                <EditIconButton onClick={handleEditNotifications}>
-                  <EditNoteOutlinedIcon />
-                </EditIconButton>
-                </Box>
-
-                <Box display="flex" justifyContent="space-between" alignItems="center" border="0.5px solid grey" borderRadius={1} p={2}>
-                <Box textAlign="left" flex={1} ml={2}>
-                  <Typography variant="body2"><strong>Emailt</strong></Typography>
-                  <Typography variant="body2">{notificationInfo.email}</Typography>
-                </Box>
-                <EditIconButton onClick={handleEditNotifications}>
-                  <EditNoteOutlinedIcon />
-                </EditIconButton>
-                </Box>
-                </>
-              ) : (
-                <Box display="flex" flexDirection="column" gap={2}>
-                  <Button
-                    variant="outlined"
-                    className={notify ? 'selected' : ''}
-                    onClick={handleNotifySelect}
-                  >
-                    Set up Notifications
-                  </Button>
-                </Box>
-              )}
-            </CardContent>
-          </Card>
+          <StationCard />
+          <ConnectorSelectionCard 
+            selectedConnector={selectedConnector} 
+            onConnectorSelect={handleConnectorSelect} 
+          />
+          <PaymentOptionsCard 
+            paymentInfo={paymentInfo}
+            selectedPayment={selectedPayment}
+            handlePaymentSelect={handlePaymentSelect}
+            handleEditPayment={handleEditPayment}
+          />
+          <NotificationCard 
+            notify={notify} 
+            notificationInfo={notificationInfo} 
+            onNotifySelect={handleNotifySelect} 
+            onEditNotifications={handleEditNotifications} 
+          />
         </CardContainer>
 
         <CustomButton
-          variant="outlined"
+          variant="contained"
           color="primary"
           disabled={!selectedConnector || !selectedPayment || !notify}
           onClick={handleStartCharging}
@@ -229,6 +105,7 @@ const ChargingStationPage = () => {
           Start Charging
         </CustomButton>
 
+        {/* Modal for Notifications */}
         <Modal open={modalOpen} onClose={handleModalClose}>
           <Box
             component="form"
@@ -274,6 +151,7 @@ const ChargingStationPage = () => {
             </Button>
           </Box>
         </Modal>
+
       </Container>
     </>
   );

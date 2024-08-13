@@ -1,9 +1,6 @@
-// ChargingStationPage.styles.js
-
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { IconButton } from '@mui/material';
 
 export const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -52,20 +49,6 @@ export const CardContainer = styled(Box)(({ theme }) => ({
   maxWidth: '500px',
 }));
 
-export const ConnectorButton = styled(Button)(({ theme, selected, borderRadius }) => ({
-  textTransform: 'none',
-  width: '45%',
-  border: '0.5px solid rgba(73, 69, 79, 0.5)',
-  borderRadius: borderRadius,
-  backgroundColor: selected ? theme.palette.primary.main : '#FFFFFF',
-  color: selected ? '#FFFFFF' : theme.palette.primary.main,
-  borderColor: theme.palette.primary.main,
-  '&:hover': {
-    backgroundColor: selected ? theme.palette.primary.main : theme.palette.action.hover,
-    color: selected ? '#FFFFFF' : theme.palette.primary.main,
-  },
-}));
-
 export const Logo = styled('img')(({ theme }) => ({
   width: '80%',
   maxWidth: '300px',
@@ -76,12 +59,6 @@ export const Logo = styled('img')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     width: '50%',
   },
-}));
-
-export const RatesLink = styled('a')(({ theme }) => ({
-  color: theme.palette.secondary.main,
-  textDecoration: 'underline',
-  cursor: 'pointer',
 }));
 
 export const BackButtonContainer = styled(Box)(({ theme }) => ({
@@ -98,24 +75,4 @@ export const NotificationBar = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-}));
-
-export const PaymentInfoContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  border: '0.5px solid grey',
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(2),
-  alignItems: 'center',
-}));
-
-export const PaymentInfoImage = styled('img')({
-  width: '40px',
-});
-
-export const EditIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  '& svg': {
-    fontSize: '2rem',
-  },
 }));
