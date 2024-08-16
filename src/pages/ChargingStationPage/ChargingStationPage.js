@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Typography, Box, Modal, TextField, Button } from '@mui/material';
 import { Container, CustomButton, CardContainer, NotificationBar, Logo } from './ChargingStationPage.styles';
 import StationCard from '../../components/StationCard/StationCard';
@@ -11,12 +11,24 @@ import PhoneInput from '../../components/utils/PhoneInput';
 
 const ChargingStationPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const scannedId = queryParams.get('scannedId');
+
   const [selectedConnector, setSelectedConnector] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [notify, setNotify] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [notificationInfo, setNotificationInfo] = useState({ name: '', email: '', phone: '' });
   const [paymentInfo, setPaymentInfo] = useState(null);
+
+  useEffect(() => {
+    if (scannedId) {
+      const timestamp = new Date().toLocaleTimeString();
+      setPaymentInfo({ method: 'Add to Parking', id: scannedId, verifiedAt: timestamp });
+      setSelectedPayment('Add to Parking');
+    }
+  }, [scannedId]);
 
   const handleConnectorSelect = (connector) => {
     setSelectedConnector(connector);
@@ -51,16 +63,13 @@ const ChargingStationPage = () => {
     setNotificationInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleStartCharging = () => {
-    navigate('/charge-loading');
-  };
-
   const handleEditPayment = () => {
     setPaymentInfo(null);
+    setSelectedPayment(null);
   };
 
-  const handleEditNotifications = () => {
-    setModalOpen(true);
+  const handleStartCharging = () => {
+    navigate('/charge-loading');
   };
 
   return (
@@ -74,13 +83,14 @@ const ChargingStationPage = () => {
       </NotificationBar>
 
       <Container>
-        <Logo src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="Zevtron Logo" />
+        <Logo src="https://zevtron.com/wp-content/uploads/2024/01/logo-1.jpg" alt="Zevtron Logo" />
 
         <CardContainer>
           <StationCard />
           <ConnectorSelectionCard 
             selectedConnector={selectedConnector} 
-            onConnectorSelect={handleConnectorSelect} 
+            onConnectorSelect={handleConnectorSelect}
+            hasTwoConnectors={true}
           />
           <PaymentOptionsCard 
             paymentInfo={paymentInfo}
@@ -92,7 +102,7 @@ const ChargingStationPage = () => {
             notify={notify} 
             notificationInfo={notificationInfo} 
             onNotifySelect={handleNotifySelect} 
-            onEditNotifications={handleEditNotifications} 
+            onEditNotifications={() => setModalOpen(true)} 
           />
         </CardContainer>
 
@@ -123,15 +133,6 @@ const ChargingStationPage = () => {
             margin={2}
           >
             <Typography variant="h6">Set up Notifications</Typography>
-            <TextField
-              name="name"
-              label="Name"
-              variant="outlined"
-              fullWidth
-              value={notificationInfo.name}
-              onChange={handleInputChange}
-              required
-            />
             <TextField
               name="email"
               label="Email"

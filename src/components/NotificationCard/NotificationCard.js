@@ -5,13 +5,16 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 const NotificationCard = ({ notify, notificationInfo, onNotifySelect, onEditNotifications }) => {
+  const title = notify ? "Selected Notifications" : "Set Up Notifications";
+  const subtitle = notify ? "" : "Get charging updates and receipts";
+
   return (
     <Card>
       <CardContent>
         <CardHeader
           icon={<NotificationsNoneIcon />}
-          title="Get Notified"
-          subtitle="Set up your notification channels"
+          title={title}
+          subtitle={subtitle}
         />
         {notify ? (
           <Box display="flex" flexDirection="column" gap={2}>
@@ -19,6 +22,9 @@ const NotificationCard = ({ notify, notificationInfo, onNotifySelect, onEditNoti
               <Box textAlign="left" flex={1} ml={2}>
                 <Typography variant="body2"><strong>SMS/Text</strong></Typography>
                 <Typography variant="body2">{notificationInfo.phone}</Typography>
+                <Typography variant="body2">
+                  {notificationInfo.receiveUpdates ? 'Charging Updates' : 'Not Used'}
+                </Typography>
               </Box>
               <IconButton onClick={onEditNotifications}>
                 <EditNoteOutlinedIcon />
@@ -29,6 +35,8 @@ const NotificationCard = ({ notify, notificationInfo, onNotifySelect, onEditNoti
               <Box textAlign="left" flex={1} ml={2}>
                 <Typography variant="body2"><strong>Email</strong></Typography>
                 <Typography variant="body2">{notificationInfo.email}</Typography>
+                <Typography variant="body2">Receipts</Typography>
+                <Typography variant="body2">Charging Updates</Typography>
               </Box>
               <IconButton onClick={onEditNotifications}>
                 <EditNoteOutlinedIcon />
@@ -36,13 +44,13 @@ const NotificationCard = ({ notify, notificationInfo, onNotifySelect, onEditNoti
             </Box>
           </Box>
         ) : (
-            <Box display="flex" flexDirection="column" gap={2}>
-          <Button
-            variant="outlined"
-            onClick={onNotifySelect}
-          >
-            Set up Notifications
-          </Button>
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Button
+              variant="outlined"
+              onClick={onNotifySelect}
+            >
+              Set up Notifications
+            </Button>
           </Box>
         )}
       </CardContent>

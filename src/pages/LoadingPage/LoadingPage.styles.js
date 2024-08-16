@@ -21,15 +21,9 @@ export const HeaderContainer = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(7),
 }));
 
-export const Logo = styled('img')(({ theme }) => ({
-  maxWidth: '300px',
-  [theme.breakpoints.up('sm')]: {
-    width: '60%',
-  },
-  [theme.breakpoints.up('md')]: {
-    width: '50%',
-  },
-}));
+export const Logo = styled('img')({
+  maxWidth: '300px'
+});
 
 export const Address = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),

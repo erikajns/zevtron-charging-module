@@ -10,8 +10,8 @@ const PaymentOptionsCard = ({ paymentInfo, selectedPayment, handlePaymentSelect,
     <CardContent>
       <CardHeader
         icon={<PaymentIcon />}
-        title="Payment Options"
-        subtitle="Choose payment method"
+        title={paymentInfo ? 'Selected Payment Option' : 'Select Payment Option'}
+        subtitle={paymentInfo ? '' : 'Choose payment method'}
       />
       {paymentInfo ? (
         <PaymentInfoContainer>

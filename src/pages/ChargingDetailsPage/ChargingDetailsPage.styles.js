@@ -24,11 +24,14 @@ export const CardContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-export const MapImage = styled('img')({
+export const MapImage = styled('img')(({ theme }) => ({
   width: '100vw',
   height: 'auto',
-  borderRadius: '8px', 
-});
+  borderRadius: '8px',
+  [theme.breakpoints.up('sm')]: {
+    width: '110%'
+  },
+}));
 
 export const DetailsCard = styled(Box)(({ theme }) => ({
   backgroundColor: '#fff',

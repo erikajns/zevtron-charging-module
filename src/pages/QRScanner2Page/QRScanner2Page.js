@@ -70,7 +70,7 @@ const QRScanner2Page = () => {
             <ArrowBackIcon />
           </IconButton>
         </BackButtonContainer>
-        <Typography variant="h6">Scan Station QR Code</Typography>
+        <Typography variant="h6">Scan Parking QR Code</Typography>
         <Typography variant="body2">Place QR code in view finder</Typography>
       </Header>
       <ScannerView>
