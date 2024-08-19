@@ -37,12 +37,15 @@ const ChargingStationPage = () => {
   const handlePaymentSelect = (paymentMethod, id) => {
     if (paymentMethod === 'Add to Parking') {
       navigate('/qr2');
+    } else if (paymentMethod === 'Pay Direct') {
+      navigate('/checkout');
     } else {
       const timestamp = new Date().toLocaleTimeString();
       setSelectedPayment(paymentMethod);
       setPaymentInfo({ method: paymentMethod, id: id, verifiedAt: timestamp });
     }
   };
+  
 
   const handleNotifySelect = () => {
     setModalOpen(true);
