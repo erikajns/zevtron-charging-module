@@ -64,3 +64,10 @@ export const Logo = styled('img')(({ theme }) => ({
       width: '50%',
     },
   }));
+
+  export const BackButtonContainer = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: theme.spacing(2),
+    left: theme.spacing(2),
+  }));
+  

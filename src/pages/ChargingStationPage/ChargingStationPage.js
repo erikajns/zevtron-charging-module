@@ -4,7 +4,7 @@ import { Typography, Box, Modal, TextField, Button } from '@mui/material';
 import { Container, CustomButton, CardContainer, NotificationBar, Logo } from './ChargingStationPage.styles';
 import StationCard from '../../components/StationCard/StationCard';
 import PaymentOptionsCard from '../../components/PaymentOptionsCard/PaymentOptionsCard';
-import ConnectorSelectionCard from '../../components/ConnectorSelectionCard/ConnectorSelectionCard';
+// import ConnectorSelectionCard from '../../components/ConnectorSelectionCard/ConnectorSelectionCard';
 import NotificationCard from '../../components/NotificationCard/NotificationCard';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import PhoneInput from '../../components/utils/PhoneInput';
@@ -15,7 +15,7 @@ const ChargingStationPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const scannedId = queryParams.get('scannedId');
 
-  const [selectedConnector, setSelectedConnector] = useState(null);
+  // const [selectedConnector, setSelectedConnector] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [notify, setNotify] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,9 +30,9 @@ const ChargingStationPage = () => {
     }
   }, [scannedId]);
 
-  const handleConnectorSelect = (connector) => {
-    setSelectedConnector(connector);
-  };
+  // const handleConnectorSelect = (connector) => {
+  //   setSelectedConnector(connector);
+  // };
 
   const handlePaymentSelect = (paymentMethod, id) => {
     if (paymentMethod === 'Add to Parking') {
@@ -86,15 +86,15 @@ const ChargingStationPage = () => {
       </NotificationBar>
 
       <Container>
-        <Logo src="https://zevtron.com/wp-content/uploads/2024/01/logo-1.jpg" alt="Zevtron Logo" />
+        <Logo src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="Zevtron Logo" />
 
         <CardContainer>
           <StationCard />
-          <ConnectorSelectionCard 
+          {/* <ConnectorSelectionCard 
             selectedConnector={selectedConnector} 
             onConnectorSelect={handleConnectorSelect}
             hasTwoConnectors={true}
-          />
+          /> */}
           <PaymentOptionsCard 
             paymentInfo={paymentInfo}
             selectedPayment={selectedPayment}
@@ -112,7 +112,8 @@ const ChargingStationPage = () => {
         <CustomButton
           variant="contained"
           color="primary"
-          disabled={!selectedConnector || !selectedPayment || !notify}
+          //disabled={!selectedConnector || !selectedPayment || !notify}
+          disabled={!selectedPayment || !notify}
           onClick={handleStartCharging}
         >
           Start Charging

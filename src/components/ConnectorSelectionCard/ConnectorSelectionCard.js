@@ -7,6 +7,7 @@ import { ConnectorButton } from './ConnectorSelectionCard.styles';
 const ConnectorSelectionCard = ({ selectedConnector, onConnectorSelect, hasTwoConnectors }) => {
   const [title, setTitle] = useState('Plug In Connector');
   const [subtitle, setSubtitle] = useState(hasTwoConnectors ? 'Select which side' : '');
+  const [connectors, setConnectors] = useState([]);
 
   useEffect(() => {
     if (selectedConnector) {
@@ -16,6 +17,30 @@ const ConnectorSelectionCard = ({ selectedConnector, onConnectorSelect, hasTwoCo
       }, 1000); // Simulate a delay for connector selection
     }
   }, [selectedConnector]);
+
+  useEffect(() => {
+    const fetchConnectors = async () => {
+      try {
+        const response = await fetch('https://go.zevtron.com/api/guest/GetConnectors?name=30111', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error fetching connectors: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setConnectors(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchConnectors();
+  }, []);
 
   return (
     <Card>

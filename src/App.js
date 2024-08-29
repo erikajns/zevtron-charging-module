@@ -9,15 +9,22 @@ import QRScanner2Page from './pages/QRScanner2Page/QRScanner2Page';
 import ChargingDetailsPage from './pages/ChargingDetailsPage/ChargingDetailsPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 
+const timestamp = new Date().toLocaleString('en-US', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: true
+});
+
 const sampleChargingData = {
-  date: 'July 10 8:17am',
+  date: timestamp,
   duration: '20min',
   cost: '$12.45',
   kWh: '8.72',
   station: 'Station 30111, Connector 2',
-  groupName: 'Group Name',
-  groupAddress: 'Group Address',
-  paymentMethod: 'Payment Method',
 };
 
 const App = () => {

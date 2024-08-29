@@ -32,22 +32,22 @@ const PaymentOptionsCard = ({ paymentInfo, selectedPayment, handlePaymentSelect,
             className={selectedPayment === 'addToParking' ? 'selected' : ''}
             onClick={() => handlePaymentSelect('Add to Parking', '1234')}
           >
-            Add to Parking
+            Scan Parking ticket
           </Button>
-          <Button
+          {/* <Button
             variant="outlined"
             className={selectedPayment === 'payDirect' ? 'selected' : ''}
             onClick={() => handlePaymentSelect('Pay Direct', '5678')}
           >
             Pay Direct
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             variant="outlined"
             className={selectedPayment === 'applyFunds' ? 'selected' : ''}
             onClick={() => handlePaymentSelect('Apply Funds', '9012')}
           >
             Apply Funds ($74.21)
-          </Button>
+          </Button> */}
         </Box>
       )}
     </CardContent>
