@@ -7,11 +7,12 @@ export const Container = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '100vh',
+  minHeight: '97vh',
   padding: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(3),
   },
+  overflow: 'hidden',
 }));
 
 export const CardContainer = styled(Box)(({ theme }) => ({

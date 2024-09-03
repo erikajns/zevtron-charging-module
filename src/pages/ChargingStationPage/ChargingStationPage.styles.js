@@ -6,7 +6,7 @@ export const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'start',
   minHeight: '100vh',
   padding: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
@@ -15,6 +15,7 @@ export const Container = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(5),
   },
+  overflow: 'hidden',
 }));
 
 export const CustomButton = styled(Button)(({ theme }) => ({

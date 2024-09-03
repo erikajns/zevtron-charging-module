@@ -15,12 +15,13 @@ const ChargingStationPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const scannedId = queryParams.get('scannedId');
 
-  // const [selectedConnector, setSelectedConnector] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [notify, setNotify] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [notificationInfo, setNotificationInfo] = useState({ name: '', email: '', phone: '' });
   const [paymentInfo, setPaymentInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (scannedId) {
@@ -29,10 +30,6 @@ const ChargingStationPage = () => {
       setSelectedPayment('Add to Parking');
     }
   }, [scannedId]);
-
-  // const handleConnectorSelect = (connector) => {
-  //   setSelectedConnector(connector);
-  // };
 
   const handlePaymentSelect = (paymentMethod, id) => {
     if (paymentMethod === 'Add to Parking') {
@@ -46,7 +43,6 @@ const ChargingStationPage = () => {
     }
   };
   
-
   const handleNotifySelect = () => {
     setModalOpen(true);
   };
@@ -71,8 +67,28 @@ const ChargingStationPage = () => {
     setSelectedPayment(null);
   };
 
-  const handleStartCharging = () => {
-    navigate('/charge-loading');
+  const handleStartCharging = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('https://api-url.com/start', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ /* Add necessary payload */ }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start charging');
+      }
+
+      navigate('/charge-loading');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,14 +125,14 @@ const ChargingStationPage = () => {
           />
         </CardContainer>
 
+        {error && <Typography color="error">{error}</Typography>}
         <CustomButton
           variant="contained"
           color="primary"
-          //disabled={!selectedConnector || !selectedPayment || !notify}
-          disabled={!selectedPayment || !notify}
+          disabled={loading || !selectedPayment || !notify}
           onClick={handleStartCharging}
         >
-          Start Charging
+          {loading ? 'Starting...' : 'Start Charging'}
         </CustomButton>
 
         {/* Modal for Notifications */}
