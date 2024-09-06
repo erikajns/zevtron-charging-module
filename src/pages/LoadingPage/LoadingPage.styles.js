@@ -72,3 +72,13 @@ export const AlertContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     zIndex: theme.zIndex.tooltip,
   }));
+
+
+export const LightningIcon = styled('img')(({ theme }) => ({
+  width: '65%',
+  height: 'auto',
+  borderRadius: '8px',
+  [theme.breakpoints.up('sm')]: {
+    width: '110%'
+  },
+}));

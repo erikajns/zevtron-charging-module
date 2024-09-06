@@ -67,28 +67,41 @@ const ChargingStationPage = () => {
     setSelectedPayment(null);
   };
 
+  /**
+   * TODO: CONNECT WITH THE START API
+   * Remove the first lines of the function
+   * Uncomment the rest of the lines
+   */
+
   const handleStartCharging = async () => {
     setLoading(true);
     setError(null);
-    try {
-      const response = await fetch('https://api-url.com/start', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ /* Add necessary payload */ }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to start charging');
-      }
+    navigate('/charge-loading');
 
-      navigate('/charge-loading');
-    } catch (error) {
-      setError(error.message);
-    } finally {
+    setTimeout(() => {
       setLoading(false);
-    }
+    }, 10000);
+
+    // try {
+    //   const response = await fetch('https://api-url.com/start', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ /* Add necessary payload */ }),
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error('Failed to start charging');
+    //   }
+
+    //   navigate('/charge-loading');
+    // } catch (error) {
+    //   setError(error.message);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

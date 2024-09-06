@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button } from '@mui/material';
-import { Container, Logo, AnimatedIcon, Phrase, HeaderContainer, AnimationContainer } from './LoadingPage.styles';
-import { ReactComponent as LightningIcon } from '../../assets/icons/bolt.svg';
+import { Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Container, Logo, AnimatedIcon, Phrase, HeaderContainer, AnimationContainer, LightningIcon } from './LoadingPage.styles';
+import lightningIcon from '../../assets/images/bolt.png';
 
 const normalPhrases = [
   "Your charging has started",
@@ -12,52 +12,27 @@ const normalPhrases = [
   "Ready, set, charge!",
 ];
 
-const stoppingPhrases = [
-  "Stopping your charging",
-  "Loading your request",
-  "Unplugging the electrons",
-  "Taking a break from the juice",
-  "Powering down safely",
-];
-
 const LoadingPage = () => {
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
-  const [isStopping, setIsStopping] = useState(false);
-  const [phrases, setPhrases] = useState(normalPhrases);
-  const navigate = useNavigate(); 
+  const [phrases] = useState(normalPhrases);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Change phrases every 3 seconds
     const interval = setInterval(() => {
       setCurrentPhraseIndex((prevIndex) => (prevIndex + 1) % phrases.length);
     }, 3000);
 
-    return () => clearInterval(interval);
-  }, [phrases]);
+    // Navigate to charging-details after 5 seconds
+    const timeout = setTimeout(() => {
+      navigate('/charging-details', { state: { status: 'inProgress' } });
+    }, 5000);
 
-  const handleStopCharging = async () => {
-    setIsStopping(true);
-    setPhrases(stoppingPhrases);
-
-    try {
-      const response = await fetch('https://api-url.com/stop', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ /* Add necessary payload */ }),
-      });
-
-      if (response.ok) {
-        navigate('/charging-details');
-      } else {
-        console.error('Failed to stop charging');
-      }
-    } catch (error) {
-      console.error('Error stopping charging:', error);
-    } finally {
-      setIsStopping(false);
-    }
-  };
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [navigate, phrases]);
 
   return (
     <Container>
@@ -67,8 +42,8 @@ const LoadingPage = () => {
 
       <AnimationContainer>
         <Box>
-          <AnimatedIcon className={isStopping ? 'slow-rotate' : ''}>
-            <LightningIcon />
+          <AnimatedIcon>
+            <LightningIcon src={lightningIcon} />
           </AnimatedIcon>
         </Box>
         <Phrase key={currentPhraseIndex}>
@@ -77,16 +52,6 @@ const LoadingPage = () => {
           </Typography>
         </Phrase>
       </AnimationContainer>
-
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={handleStopCharging}
-        style={{ marginTop: '20px' }}
-        disabled={isStopping}
-      >
-        Stop Charging
-      </Button>
     </Container>
   );
 };
