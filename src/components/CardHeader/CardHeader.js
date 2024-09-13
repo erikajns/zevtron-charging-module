@@ -12,7 +12,7 @@ const CardHeader = ({ icon, title, subtitle, price }) => {
         <Typography variant="h6">{title}</Typography>
         {subtitle && <Typography variant="body2">{subtitle}</Typography>}
       </HeaderContent>
-      {price && <Typography variant="body2" sx={{ marginLeft: 'auto' }}>{price} <br /> kWh</Typography>}
+      {price && <Typography variant="body2" sx={{ marginLeft: 'auto' }}>{price} <br /> /kWh</Typography>}
     </CardHeaderContainer>
   );
 };

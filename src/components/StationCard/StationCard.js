@@ -1,16 +1,19 @@
 import React from 'react';
 import { Card, CardContent } from '@mui/material';
 import CardHeader from '../CardHeader/CardHeader';
+import faacLogo from '../../assets/images/FAACLogo.svg'
 
-const StationCard = () => {
+const StationCard = (stationId) => {
+const subtitle = `Charging Station ${stationId}`
+
   return (
     <Card>
       <CardContent>
         <CardHeader
-          icon={<img src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="TIBA Logo" />}
-          title="Tiba Lot A"
-          subtitle="Charging Station 30111"
-          price="$0.42"
+          icon={<img src={faacLogo} alt="TIBA Logo" />}
+          title="Central Parking"
+          subtitle={subtitle}
+          price="$0.50"
         />
       </CardContent>
     </Card>

@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography, IconButton, Button } from '@mui/material';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import { Container, CardContainer, MapImage, DetailsCard, InfoSection, IconSection, Logo, BackButtonContainer } from './ChargingDetailsPage.styles';
+import { Container, CardContainer, MapImage, DetailsCard, InfoSection, Logo, BackButtonContainer } from './ChargingDetailsPage.styles';
 import mapImage from '../../assets/images/mapImage.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import faacLogo from '../../assets/images/FAACLogo.png';
+import { StationContext } from '../../contexts/StationContext';
 
 const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
   const navigate = useNavigate();
   const [chargingState, setChargingState] = useState('inProgress'); // 'inProgress', 'cancelled', 'completed'
+  const {stationId} = useContext(StationContext);
+
+  useEffect(() => {
+    // Change state to Completed after 10 seconds
+    const timeout = setTimeout(() => {
+      setChargingState('completed');
+    }, 5000);
+  }, []);
+
 
   const handleBackClick = () => {
     navigate('/dashboard'); // Update with the correct route to your landing page, right now is /dashboard.
@@ -47,45 +55,31 @@ const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
 
   const getCardTitle = () => {
     if (chargingState === 'inProgress') return 'In Progress';
-    if (chargingState === 'cancelled') return 'Charging Cancelled';
+    if (chargingState === 'cancelled') return 'Completed';
     if (isChargingComplete) return 'Completed';
-    return '';
-  };
-
-  const getIconButton = () => {
-    if (chargingState === 'inProgress') {
-      return <CancelOutlinedIcon style={{ fontSize: '2.5rem', color: 'red' }} />;
-    } else if (chargingState === 'cancelled') {
-      return <CheckCircleOutlinedIcon style={{ fontSize: '2.5rem', color: 'green' }} />;
-    } else if (isChargingComplete) {
-      return <BatteryChargingFullIcon style={{ fontSize: '2.5rem', color: 'green' }} />;
-    }
-    return null;
+    return 'Completed';
   };
 
   const getCardDetails = () => {
     if (chargingState === 'inProgress') {
       return (
         <>
-          {chargingData.date} | {chargingData.duration} <br />
-          @ {chargingData.cost} <br />
-          @ {chargingData.kWh} kWh <br />
-          {chargingData.station} <br />
+          {chargingData.date} <br />
+          {stationId ? `Station ${stationId}`: `Station Unknown`} <br />
           {chargingData.groupName} <br />
-          {chargingData.groupAddress} <br />
-          {chargingData.paymentMethod}
+          {chargingData.address} <br />
         </>
       );
     } else {
       return (
         <>
-          {chargingData.date} | {chargingData.duration} <br />
+          {chargingData.dateSimple} | Duration: {chargingData.duration} <br />
+          {stationId ? `Station ${stationId}`: `Station Unknown`} <br />
           Total {chargingData.cost} <br />
           Total {chargingData.kWh} kWh <br />
           {chargingData.station} <br />
           {chargingData.groupName} <br />
-          {chargingData.groupAddress} <br />
-          {chargingData.paymentMethod}
+          {chargingData.address} <br />
         </>
       );
     }
@@ -99,7 +93,7 @@ const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
         </IconButton>
       </BackButtonContainer>
 
-      <Logo src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="Tiba Logo" />
+      <Logo src={faacLogo} alt="FAAC Parking Solutions Logo" />
       <Typography variant="h6" align="center" gutterBottom>
         Charge Details
       </Typography>
@@ -109,11 +103,6 @@ const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
           <Typography variant="h6">{getCardTitle()}</Typography>
           <InfoSection>
             <Typography variant="body2">{getCardDetails()}</Typography>
-            <IconSection>
-              <IconButton>
-                {getIconButton()}
-              </IconButton>
-            </IconSection>
           </InfoSection>
         </DetailsCard>
       </CardContainer>

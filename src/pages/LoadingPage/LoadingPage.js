@@ -3,6 +3,7 @@ import { Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Container, Logo, AnimatedIcon, Phrase, HeaderContainer, AnimationContainer, LightningIcon } from './LoadingPage.styles';
 import lightningIcon from '../../assets/images/bolt.png';
+import faacLogo from '../../assets/images/FAACLogo.png'
 
 const normalPhrases = [
   "Your charging has started",
@@ -37,7 +38,7 @@ const LoadingPage = () => {
   return (
     <Container>
       <HeaderContainer>
-        <Logo src="https://www.netcloud.co.il/wp-content/uploads/2019/11/TIBA-Logo.png" alt="Company Logo" />
+       <Logo src={faacLogo} alt="FAAC Parking Solutions Logo" />
       </HeaderContainer>
 
       <AnimationContainer>

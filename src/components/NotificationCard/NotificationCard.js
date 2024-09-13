@@ -22,9 +22,7 @@ const NotificationCard = ({ notify, notificationInfo, onNotifySelect, onEditNoti
               <Box textAlign="left" flex={1} ml={2}>
                 <Typography variant="body2"><strong>SMS/Text</strong></Typography>
                 <Typography variant="body2">{notificationInfo.phone}</Typography>
-                <Typography variant="body2">
-                  {notificationInfo.receiveUpdates ? 'Charging Updates' : 'Not Used'}
-                </Typography>
+                <Typography variant="body2">Charging Updates</Typography>
               </Box>
               <IconButton onClick={onEditNotifications}>
                 <EditNoteOutlinedIcon />

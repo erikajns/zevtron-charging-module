@@ -58,6 +58,7 @@ export const Logo = styled('img')(({ theme }) => ({
     width: '80%',
     maxWidth: '300px',
     marginBottom: theme.spacing(3),
+    marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       width: '60%',
     },
