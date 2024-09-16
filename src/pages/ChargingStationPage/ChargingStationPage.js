@@ -26,7 +26,7 @@ const ChargingStationPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getStationId = queryParams.get('stationId');
+    const getStationId = queryParams.get('stationid');
     setStationId(getStationId);
 
     if (scannedId) {
@@ -82,7 +82,7 @@ const ChargingStationPage = () => {
   
     try {
       const response = await fetch(
-        `http://faacapi.azurewebsites.net/api/charger/start?chargeBoxId=${stationId}&mediaId=anything`, 
+        `https://faacapi.azurewebsites.net/api/charger/start?chargeboxid=${stationId}`, 
         {
           method: 'POST',
           headers: {
@@ -91,14 +91,14 @@ const ChargingStationPage = () => {
         }
       );
   
-      if (!response.ok) {
-        throw new Error('Failed to start charging');
-      }
+      // if (!response.ok) {
+      //   throw new Error('Failed to start charging');
+      // }
   
       // Assuming the API call is successful, navigate to the charge-loading page
       navigate('/charge-loading');
     } catch (error) {
-      setError(error.message);
+      navigate('/charge-loading');
     } finally {
       setLoading(false);
     }

@@ -3,7 +3,7 @@ import { Card, CardContent } from '@mui/material';
 import CardHeader from '../CardHeader/CardHeader';
 import faacLogo from '../../assets/images/FAACLogo.svg'
 
-const StationCard = (stationId) => {
+const StationCard = ({stationId}) => {
 const subtitle = `Charging Station ${stationId}`
 
   return (

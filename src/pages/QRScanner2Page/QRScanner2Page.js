@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { Alert, Box, IconButton, Typography } from '@mui/material';
 import { Container, Header, ScannerView, BackButtonContainer, AlertContainer } from './QRScanner2Page.styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
+import { StationContext } from '../../contexts/StationContext';
+
 
 const QRScanner2Page = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
+  const {stationId} = useContext(StationContext);
+
 
   const handleScan = (result) => {
     const decodedText = result?.[0]?.rawValue; // Adjusting to match the expected array format from the library
     if (decodedText) {
       if (decodedText === "TestQRCode") {
         const testScannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random test ID
-        navigate(`/dashboard?scannedId=${testScannedId}`);
+        navigate(`/dashboard?stationid=${stationId}&scannedId=${stationId}`);
       } else {
         fetch('api/guest/HubTibaStartCharge', {
           method: 'POST',
@@ -28,7 +32,7 @@ const QRScanner2Page = () => {
         .then(data => {
           alert('Your ticket has been validated and the charger is activated. Charging fee will be added to your parking transaction.');
           const scannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random ID for real case
-          navigate('/dashboard', { state: { scannedId } });
+          navigate(`/dashboard?stationid=${stationId}&scannedId=${stationId}`);
         })
         .catch(error => {
           console.error('Error:', error);
