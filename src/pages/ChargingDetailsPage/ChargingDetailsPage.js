@@ -16,7 +16,7 @@ const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
     // Change state to Completed after 10 seconds
     const timeout = setTimeout(() => {
       setChargingState('completed');
-    }, 5000);
+    }, 10000);
   }, []);
 
 
