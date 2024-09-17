@@ -101,11 +101,11 @@ const ChargingDetailsPage = ({ isChargingComplete, chargingData }) => {
 
   return (
     <Container>
-      <BackButtonContainer>
+      {/* <BackButtonContainer>
         <IconButton onClick={handleBackClick}>
           <ArrowBackIcon />
         </IconButton>
-      </BackButtonContainer>
+      </BackButtonContainer> */}
 
       <Logo src={faacLogo} alt="FAAC Parking Solutions Logo" />
       <Typography variant="h6" align="center" gutterBottom>

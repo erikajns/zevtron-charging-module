@@ -82,14 +82,17 @@ const ChargingStationPage = () => {
     setError(null);
   
     try {
-      await fetch(
-        `https://faacapi.azurewebsites.net/api/charger/start?chargeboxid=${stationId}&MediaId=${ticketUrl}`,
+     await fetch(
+        `https://faacapi.azurewebsites.net/api/charger/start`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          mode: 'no-cors'
+          body: JSON.stringify({
+            chargeBoxId: stationId,
+            mediaId: ticketUrl
+          }),
         }
       );
   
@@ -101,6 +104,7 @@ const ChargingStationPage = () => {
       navigate('/charge-loading');
     } catch (error) {
       navigate('/charge-loading');
+      console.log(error)
     } finally {
       setLoading(false);
     }
