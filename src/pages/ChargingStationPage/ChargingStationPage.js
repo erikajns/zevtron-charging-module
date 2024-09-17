@@ -82,13 +82,14 @@ const ChargingStationPage = () => {
     setError(null);
   
     try {
-      const response = await fetch(
+      await fetch(
         `https://faacapi.azurewebsites.net/api/charger/start?chargeboxid=${stationId}&MediaId=${ticketUrl}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          mode: 'no-cors'
         }
       );
   
