@@ -15,6 +15,7 @@ const ChargingStationPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const scannedId = queryParams.get('scannedId');
+  const ticketUrl = queryParams.get('ticketUrl');
   const {stationId, setStationId } = useContext(StationContext)
 
   const [selectedPayment, setSelectedPayment] = useState(null);
@@ -82,7 +83,7 @@ const ChargingStationPage = () => {
   
     try {
       const response = await fetch(
-        `https://faacapi.azurewebsites.net/api/charger/start?chargeboxid=${stationId}`, 
+        `https://faacapi.azurewebsites.net/api/charger/start?chargeboxid=${stationId}&MediaId=${ticketUrl}`,
         {
           method: 'POST',
           headers: {

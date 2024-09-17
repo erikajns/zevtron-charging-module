@@ -15,29 +15,13 @@ const QRScanner2Page = () => {
 
 
   const handleScan = (result) => {
-    const decodedText = result?.[0]?.rawValue; // Adjusting to match the expected array format from the library
+    const decodedText = result?.[0]?.rawValue;
     if (decodedText) {
       if (decodedText === "TestQRCode") {
-        const testScannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random test ID
         navigate(`/dashboard?stationid=${stationId}&scannedId=${stationId}`);
       } else {
-        fetch('api/guest/HubTibaStartCharge', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ evseId: 'ChargeBoxId', mediaIdentifier: decodedText })
-        })
-        .then(response => response.json())
-        .then(data => {
-          alert('Your ticket has been validated and the charger is activated. Charging fee will be added to your parking transaction.');
-          const scannedId = Math.floor(Math.random() * 10000).toString(); // Generate a random ID for real case
-          navigate(`/dashboard?stationid=${stationId}&scannedId=${stationId}`);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          setAlertMessage('There was an issue starting the session.');
-        });
+        alert('Your ticket has been validated and the charger is activated. Charging fee will be added to your parking transaction.');
+        navigate(`/dashboard?stationid=${stationId}&scannedId=${stationId}&ticketUrl=${encodeURIComponent(decodedText)}`);
       }
     }
   };
